@@ -8,10 +8,10 @@ namespace HotelsApi.Entities
             public int CountryId { get; set; }
 
             [Required]
-            public string CountryCode { get; set; }
+            public string? CountryCode { get; set; }
 
             [Required]
-            public string CountryName { get; set; }
+            public string? CountryName { get; set; }
         
     }
 }

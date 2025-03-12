@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelsApi.Entities
 {
@@ -11,7 +12,11 @@ namespace HotelsApi.Entities
             public string? CityCode { get; set; }
 
             [Required]
-            public string CityName { get; set; }
-        
+            public string? CityName { get; set; }
+
+            [ForeignKey("State")]
+            public int StateId { get; set; }
+            public virtual State? State { get; set; }
+
     }
 }

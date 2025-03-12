@@ -12,6 +12,8 @@ namespace HotelsApi.Context
         public DbSet<State> State { get; set; }
         public DbSet<City> City { get; set; }
         public DbSet<Barangay> Barangay { get; set; }
+        public DbSet<Transactions> Transactions { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +22,7 @@ namespace HotelsApi.Context
             modelBuilder.Entity<State>();
             modelBuilder.Entity<City>();
             modelBuilder.Entity<Barangay>();
+            modelBuilder.Entity<Transactions>();
         }
     }
 }
