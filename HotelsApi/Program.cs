@@ -1,6 +1,9 @@
 using HotelsApi.Context;
-using Microsoft.AspNetCore.Cors.Infrastructure;
+using HotelsApi.Repositories;
+using HotelsApi.Services;
 using Microsoft.EntityFrameworkCore;
+
+// Scaffold Script:
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,18 +12,31 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Service binding
+builder.Services.AddScoped<IHotelService, HotelService>();
+builder.Services.AddScoped<ICountryService, CountryService>();
+builder.Services.AddScoped<IStateService, StateService>();
+builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<IBarangayService, BarangayService>(); 
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 
+// Repositories binding
+builder.Services.AddScoped<IHotelRepository, HotelRepository>();
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<IStateRepository, StateRepository>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<IBarangayRepository, BarangayRepository>();  
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
-//Auto Mapper
+// Auto Mapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Database Configuration
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
 string connectionString = "server=localhost; port=3306; database=HotelsApidb; user=root; password=atrjos; SslMode=Required;Allow User Variables=true;";
 
-
 builder.Services.AddDbContext<DatabaseContext>(
-    dbContextoptions => dbContextoptions.UseMySql(connectionString, serverVersion).EnableDetailedErrors()
+    dbContextOptions => dbContextOptions.UseMySql(connectionString, serverVersion).EnableDetailedErrors()
 );
 
 var app = builder.Build();

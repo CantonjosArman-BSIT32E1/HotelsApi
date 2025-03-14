@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelsApi.Entities;
 
-public partial class Transactions
+public partial class Transaction
 {
     [Key]
     public int TransactionId { get; set; }
@@ -20,5 +20,7 @@ public partial class Transactions
     public string PhoneNumber { get; set; } = null!;
     public string EmailAddress { get; set; } = null!;
 
-    public virtual Hotels? Hotels { get; set; }
+    // Navigation property
+    public virtual Hotels Hotel { get; set; }
+
 }

@@ -1,7 +1,7 @@
-﻿using HotelsApi.Context;
-using HotelsApi.Entities;
+﻿using HotelsApi.Services;
+using HotelsApi.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace HotelsApi.Controllers
 {
@@ -9,57 +9,49 @@ namespace HotelsApi.Controllers
     [Route("api/[controller]")]
     public class BarangayController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly IBarangayService _barangayService;
 
-        public BarangayController(DatabaseContext context)
+        public BarangayController(IBarangayService barangayService)
         {
-            _context = context;
+            _barangayService = barangayService;
         }
 
         [HttpGet]
-        public async Task<List<Barangay>> GetAllBarangays()
+        public async Task<IActionResult> GetAllBarangays()
         {
-            return await _context.Barangay.ToListAsync();
+            var listOfBarangays = await _barangayService.GetAllBarangays();
+            return Ok(listOfBarangays);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Barangay>> GetBarangayById(int id)
+        public async Task<IActionResult> GetBarangayById([FromRoute] int id)
         {
-            var barangay = await _context.Barangay.FindAsync(id);
-            if (barangay == null) return NotFound();
-            return barangay;
+            var barangay = await _barangayService.GetBarangayById(id);
+            return Ok(barangay);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Barangay>> CreateBarangay([FromBody] Barangay barangay)
+        public async Task<IActionResult> CreateBarangay([FromBody] CreateBarangayModel barangay)
         {
-            _context.Barangay.Add(barangay);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetBarangayById), new { id = barangay.BarangayId }, barangay);
+            var createBarangayResult = await _barangayService.CreateBarangay(barangay);
+            return Ok(createBarangayResult);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBarangay(int id, [FromBody] Barangay barangay)
+        public async Task<IActionResult> UpdateBarangay([FromRoute] int id, [FromBody] UpdateBarangayModel barangay)
         {
-            var existingBarangay = await _context.Barangay.FindAsync(id);
-            if (existingBarangay == null) return NotFound();
-
-            existingBarangay.BarangayName = barangay.BarangayName;
-            existingBarangay.PostalCode = barangay.PostalCode;
-
-            await _context.SaveChangesAsync();
-            return NoContent();
+            var updateBarangayResult = await _barangayService.UpdateBarangay(barangay, id);
+            return Ok(updateBarangayResult);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBarangay(int id)
+        public async Task<IActionResult> DeleteBarangay([FromRoute] int id)
         {
-            var barangay = await _context.Barangay.FindAsync(id);
-            if (barangay == null) return NotFound();
-
-            _context.Barangay.Remove(barangay);
-            await _context.SaveChangesAsync();
-            return NoContent();
+            var deleteBarangayResult = await _barangayService.DeleteBarangay(id);
+            if (deleteBarangayResult)
+                return Ok(deleteBarangayResult);
+            else
+                return BadRequest(deleteBarangayResult);
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using HotelsApi.Context;
-using HotelsApi.Entities;
+﻿using HotelsApi.Services;
+using HotelsApi.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace HotelsApi.Controllers
 {
@@ -9,58 +9,49 @@ namespace HotelsApi.Controllers
     [Route("api/[controller]")]
     public class HotelsController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly IHotelService hotelService;
 
-        public HotelsController(DatabaseContext context)
+        public HotelsController(IHotelService hotelService)
         {
-            _context = context;
+            this.hotelService = hotelService;
         }
 
         [HttpGet]
-        public async Task<List<Hotels>> GetAllHotels()
+        public async Task<IActionResult> GetAllHotels()
         {
-            return await _context.Hotels.ToListAsync();
+            var hotels = await hotelService.GetAllHotels();
+            return Ok(hotels);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Hotels>> GetHotelById(int id)
+        public async Task<IActionResult> GetHotelById([FromRoute] int id)
         {
-            var hotel = await _context.Hotels.FindAsync(id);
-            if (hotel == null) return NotFound();
-            return hotel;
+            var hotel = await hotelService.GetHotelById(id);
+            return Ok(hotel);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Hotels>> CreateHotel([FromBody] Hotels hotel)
+        public async Task<IActionResult> CreateHotel([FromBody] CreateHotelModel hotel)
         {
-            _context.Hotels.Add(hotel);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetHotelById), new { id = hotel.HotelId }, hotel);
+            var createdHotel = await hotelService.CreateHotel(hotel);
+            return Ok(createdHotel);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateHotel(int id, [FromBody] Hotels hotel)
+        public async Task<IActionResult> UpdateHotel([FromRoute] int id, [FromBody] UpdateHotelModel hotel)
         {
-            var existingHotel = await _context.Hotels.FindAsync(id);
-            if (existingHotel == null) return NotFound();
-
-            existingHotel.HotelCode = hotel.HotelCode;
-            existingHotel.HotelName = hotel.HotelName;
-            existingHotel.HotelDescription = hotel.HotelDescription;
-
-            await _context.SaveChangesAsync();
-            return NoContent();
+            var updatedHotel = await hotelService.UpdateHotel(hotel, id);
+            return Ok(updatedHotel);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHotel(int id)
+        public async Task<IActionResult> DeleteHotel([FromRoute] int id)
         {
-            var hotel = await _context.Hotels.FindAsync(id);
-            if (hotel == null) return NotFound();
-
-            _context.Hotels.Remove(hotel);
-            await _context.SaveChangesAsync();
-            return NoContent();
+            var result = await hotelService.DeleteHotel(id);
+            if (result)
+                return Ok(result);
+            else
+                return BadRequest(result);
         }
     }
 }

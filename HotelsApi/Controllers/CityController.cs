@@ -1,7 +1,11 @@
 ﻿using HotelsApi.Context;
+using HotelsApi.Services;
+using HotelsApi.Dtos;
 using HotelsApi.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HotelsApi.Controllers
 {
@@ -9,57 +13,49 @@ namespace HotelsApi.Controllers
     [Route("api/[controller]")]
     public class CityController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly ICityService cityService;
 
-        public CityController(DatabaseContext context)
+        public CityController(ICityService cityService)
         {
-            _context = context;
+            this.cityService = cityService;
         }
 
         [HttpGet]
-        public async Task<List<City>> GetAllCities()
+        public async Task<IActionResult> GetAllCities()
         {
-            return await _context.City.ToListAsync();
+            var cities = await cityService.GetAllCities();
+            return Ok(cities);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<City>> GetCityById(int id)
+        public async Task<IActionResult> GetCityById([FromRoute] int id)
         {
-            var city = await _context.City.FindAsync(id);
-            if (city == null) return NotFound();
-            return city;
+            var city = await cityService.GetCityById(id);
+            return Ok(city);
         }
 
         [HttpPost]
-        public async Task<ActionResult<City>> CreateCity([FromBody] City city)
+        public async Task<IActionResult> CreateCity([FromBody] CreateCityModel city)
         {
-            _context.City.Add(city);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetCityById), new { id = city.CityId }, city);
+            var createdCity = await cityService.CreateCity(city);
+            return Ok(createdCity);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCity(int id, [FromBody] City city)
+        public async Task<IActionResult> UpdateCity([FromRoute] int id, [FromBody] UpdateCityModel city)
         {
-            var existingCity = await _context.City.FindAsync(id);
-            if (existingCity == null) return NotFound();
-
-            existingCity.CityCode = city.CityCode;
-            existingCity.CityName = city.CityName;
-
-            await _context.SaveChangesAsync();
-            return NoContent();
+            var updatedCity = await cityService.UpdateCity(city, id);
+            return Ok(updatedCity);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCity(int id)
+        public async Task<IActionResult> DeleteCity([FromRoute] int id)
         {
-            var city = await _context.City.FindAsync(id);
-            if (city == null) return NotFound();
-
-            _context.City.Remove(city);
-            await _context.SaveChangesAsync();
-            return NoContent();
+            var result = await cityService.DeleteCity(id);
+            if (result)
+                return Ok(result);
+            else
+                return BadRequest(result);
         }
     }
 }

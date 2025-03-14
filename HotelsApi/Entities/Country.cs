@@ -7,11 +7,14 @@ namespace HotelsApi.Entities
             [Key]
             public int CountryId { get; set; }
 
-            [Required]
-            public string? CountryCode { get; set; }
+         
+            public string CountryCode { get; set; }
 
-            [Required]
-            public string? CountryName { get; set; }
-        
+         
+            public string CountryName { get; set; }
+
+            public ICollection<State> State { get; set; } = []; // Fix: Navigation property
+
+
     }
 }

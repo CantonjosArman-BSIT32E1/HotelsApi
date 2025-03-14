@@ -17,10 +17,6 @@ namespace HotelsApi.Validators
             RuleFor(x => x.PostalCode)
                 .NotEmpty().WithMessage("{PropertyName} should not be empty.");
 
-            RuleFor(x => x.CityId)
-                .NotEmpty().WithMessage("{PropertyName} should not be empty.")
-                .Must(cityId => databaseContext.City.Any(c => c.CityId == cityId))
-                .WithMessage("CityId must be valid.");
         }
     }
 }

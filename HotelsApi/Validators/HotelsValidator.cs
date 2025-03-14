@@ -22,10 +22,6 @@ namespace HotelsApi.Validators
             RuleFor(x => x.HotelDescription)
                 .NotEmpty().WithMessage("{PropertyName} should not be empty.");
 
-            RuleFor(x => x.BarangayId)
-                .NotEmpty().WithMessage("{PropertyName} should not be empty.")
-                .Must(barangayId => databaseContext.Barangay.Any(b => b.BarangayId == barangayId))
-                .WithMessage("BarangayId must be valid.");
         }
     }
 }
