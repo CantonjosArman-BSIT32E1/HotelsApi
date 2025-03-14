@@ -67,7 +67,7 @@ namespace HotelsApi.Repositories
             hotelFromDatabase.HotelCode = hotel.HotelCode;
             hotelFromDatabase.HotelName = hotel.HotelName;
             hotelFromDatabase.HotelDescription = hotel.HotelDescription;
-            hotelFromDatabase.BarangayId = hotel.BarangayId;
+
 
             await databaseContext.SaveChangesAsync();
             return hotelFromDatabase;

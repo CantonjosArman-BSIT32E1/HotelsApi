@@ -11,10 +11,6 @@ namespace HotelsApi.Validators
     {
         public CreateTransactionValidator(DatabaseContext databaseContext)
         {
-            RuleFor(x => x.HotelId)
-                .NotEmpty().WithMessage("{PropertyName} should not be empty.")
-                .Must(hotelId => databaseContext.Hotels.Any(h => h.HotelId == hotelId))
-                .WithMessage("HotelId must be valid.");
 
             RuleFor(x => x.HotelName)
                 .NotEmpty().WithMessage("{PropertyName} should not be empty.");

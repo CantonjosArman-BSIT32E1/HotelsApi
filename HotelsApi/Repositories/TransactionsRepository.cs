@@ -64,7 +64,7 @@ namespace HotelsApi.Repositories
             if (transactionFromDatabase == null)
                 return null;
 
-            transactionFromDatabase.HotelId = transaction.HotelId;
+
             transactionFromDatabase.HotelName = transaction.HotelName;
             transactionFromDatabase.HotelCode = transaction.HotelCode;
             transactionFromDatabase.DateFrom = transaction.DateFrom;

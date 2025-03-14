@@ -66,7 +66,7 @@ namespace HotelsApi.Repositories
 
             cityFromDatabase.CityCode = city.CityCode;
             cityFromDatabase.CityName = city.CityName;
-            cityFromDatabase.StateId = city.StateId;
+
 
             await databaseContext.SaveChangesAsync();
             return cityFromDatabase;

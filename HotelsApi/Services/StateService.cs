@@ -78,6 +78,7 @@ namespace HotelsApi.Services
             stateFromDatabase.StateCode = state.StateCode;
             stateFromDatabase.StateName = state.StateName;
 
+
             await databaseContext.SaveChangesAsync();
             return mapper.Map<GetStateModel>(stateFromDatabase);
         }

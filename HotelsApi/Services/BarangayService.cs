@@ -78,6 +78,7 @@ namespace HotelsApi.Services
             barangayFromDatabase.BarangayName = barangay.BarangayName;
             barangayFromDatabase.PostalCode = barangay.PostalCode;
 
+
             await databaseContext.SaveChangesAsync();
             return mapper.Map<GetBarangayModel>(barangayFromDatabase);
         }

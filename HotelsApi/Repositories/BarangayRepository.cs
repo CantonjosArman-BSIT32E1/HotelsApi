@@ -66,7 +66,7 @@ namespace HotelsApi.Repositories
 
             barangayFromDatabase.BarangayName = barangay.BarangayName;
             barangayFromDatabase.PostalCode = barangay.PostalCode;
-            barangayFromDatabase.CityId = barangay.CityId;
+
 
             await databaseContext.SaveChangesAsync();
             return barangayFromDatabase;

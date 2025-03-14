@@ -66,7 +66,7 @@ namespace HotelsApi.Repositories
 
             stateFromDatabase.StateCode = state.StateCode;
             stateFromDatabase.StateName = state.StateName;
-            stateFromDatabase.CountryId = state.CountryId;
+
 
             await databaseContext.SaveChangesAsync();
             return stateFromDatabase;
