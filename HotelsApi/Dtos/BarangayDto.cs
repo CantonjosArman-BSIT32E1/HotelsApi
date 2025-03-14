@@ -11,7 +11,7 @@ namespace HotelsApi.Dtos
         public string PostalCode { get; set; } = null!;
 
 
-        public int CityId { get; set; }
+        public int? CityId { get; set; }
     }
 
     public class UpdateBarangayModel : CreateBarangayModel

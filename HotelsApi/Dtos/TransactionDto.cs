@@ -2,7 +2,7 @@
 {
     public class CreateTransactionModel
     {
-        public int HotelId { get; set; }
+        public int? HotelId { get; set; }
         public string HotelName { get; set; } 
         public string HotelCode { get; set; }
         public DateTime DateFrom { get; set; }

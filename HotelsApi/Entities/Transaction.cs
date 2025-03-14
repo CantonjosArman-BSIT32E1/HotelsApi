@@ -7,10 +7,10 @@ namespace HotelsApi.Entities;
 public partial class Transaction
 {
     [Key]
-    public int TransactionId { get; set; }
+    public int? TransactionId { get; set; }
 
     [ForeignKey("HotelId")]
-    public int HotelId { get; set; }
+    public int? HotelId { get; set; }
 
     public string HotelName { get; set; } = null!;
     public string HotelCode { get; set; } = null!;

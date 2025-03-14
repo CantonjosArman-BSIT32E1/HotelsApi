@@ -13,7 +13,7 @@ namespace HotelsApi.Dtos
         public string HotelDescription { get; set; } 
 
 
-        public int BarangayId { get; set; }
+        public int? BarangayId { get; set; }
     }
 
     public class UpdateHotelModel : CreateHotelModel

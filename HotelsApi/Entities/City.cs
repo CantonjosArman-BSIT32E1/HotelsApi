@@ -7,7 +7,7 @@ namespace HotelsApi.Entities
     {
 
             [Key]
-            public int CityId { get; set; }
+            public int? CityId { get; set; }
 
             public string CityCode { get; set; }
 

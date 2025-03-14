@@ -6,7 +6,7 @@ namespace HotelsApi.Entities
     public class Barangay
     {
             [Key]
-            public int BarangayId { get; set; }
+            public int? BarangayId { get; set; }
 
             public string BarangayName { get; set; }
             public string PostalCode { get; set; }
