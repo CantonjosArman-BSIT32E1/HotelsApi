@@ -5,7 +5,7 @@ namespace HotelsApi.Entities
     public class Country
     {
             [Key]
-            public int? CountryId { get; set; }
+            public int CountryId { get; set; }
 
          
             public string CountryCode { get; set; }

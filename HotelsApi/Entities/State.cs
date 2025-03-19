@@ -6,7 +6,7 @@ namespace HotelsApi.Entities
     public class State  
     {
         [Key]
-        public int? StateId { get; set; }
+        public int StateId { get; set; }
 
         public string StateCode { get; set; }
 
@@ -14,7 +14,7 @@ namespace HotelsApi.Entities
         public string StateName { get; set; }
 
         [ForeignKey("Country")]
-        public int CountryId { get; set; }
+        public int? CountryId { get; set; }
         public virtual Country Country { get; set; }
 
         public ICollection<City> City { get; set; } = []; // Fix: Navigation property

@@ -11,11 +11,13 @@ namespace HotelsApi.Validators
         {
             RuleFor(x => x.BarangayName)
                 .NotEmpty().WithMessage("{PropertyName} should not be empty.")
-                .Must(name => !databaseContext.Barangay.Any(b => b.BarangayName == name))
-                .WithMessage("{PropertyName} must be unique.");
+                .NotNull().NotEmpty().WithMessage("{PropertyName} should not be null.")
+                .Must(BarangayName => databaseContext.Barangay.Where(a => a.BarangayName == BarangayName).FirstOrDefault() == null)
+                    .WithMessage("{PropertyName} must be unique.");
 
             RuleFor(x => x.PostalCode)
-                .NotEmpty().WithMessage("{PropertyName} should not be empty.");
+                .NotEmpty().WithMessage("{PropertyName} should not be empty.")
+                .NotNull();
 
         }
     }

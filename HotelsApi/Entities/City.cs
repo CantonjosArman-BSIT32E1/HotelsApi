@@ -7,14 +7,14 @@ namespace HotelsApi.Entities
     {
 
             [Key]
-            public int? CityId { get; set; }
+            public int CityId { get; set; }
 
             public string CityCode { get; set; }
 
             public string CityName { get; set; }
 
             [ForeignKey("State")]
-            public int StateId { get; set; }
+            public int? StateId { get; set; }
             public virtual State State { get; set; }
 
             // Navigation property for Barangay

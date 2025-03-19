@@ -7,11 +7,7 @@ namespace HotelsApi.Entities;
 public partial class Transaction
 {
     [Key]
-    public int? TransactionId { get; set; }
-
-    [ForeignKey("HotelId")]
-    public int? HotelId { get; set; }
-
+    public int TransactionId { get; set; }
     public string HotelName { get; set; } = null!;
     public string HotelCode { get; set; } = null!;
     public DateTime DateFrom { get; set; }
@@ -19,6 +15,9 @@ public partial class Transaction
     public string FullName { get; set; } = null!;
     public string PhoneNumber { get; set; } = null!;
     public string EmailAddress { get; set; } = null!;
+
+    [ForeignKey("HotelId")]
+    public int? HotelId { get; set; }
 
     // Navigation property
     public virtual Hotels Hotel { get; set; }
