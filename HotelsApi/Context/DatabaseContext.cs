@@ -83,6 +83,8 @@ namespace HotelsApi.Context
                 entity.HasKey(e => e.TransactionId).HasName("PRIMARY");
                 entity.HasIndex(e => e.HotelId, "Transactions_HotelId_FK");
                 entity.HasOne(t => t.Hotel).WithMany(h => h.Transactions).HasForeignKey(t => t.HotelId);
+                entity.Property(e => e.DateFrom);
+                entity.Property(e => e.DateTo);
                 entity.Property(e => e.HotelName).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.HotelCode).IsRequired().HasMaxLength(10);
                 entity.Property(e => e.FullName).IsRequired().HasMaxLength(100);
